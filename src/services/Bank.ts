@@ -102,12 +102,14 @@ export class Bank {
     //Method for TRANSFER
     transfer(fromAccountNumber: number, toAccountNumber: number, amount: number): void {
 
+        // storing account object in variable
         const fromAccount = this.accounts.find(
             acc => acc.accountNumber == fromAccountNumber);
 
         const toAccount = this.accounts.find(
             acc => acc.accountNumber == toAccountNumber);
 
+        // Validations
         if (!fromAccount || !toAccount) {
             throw new Error("Accounts not found");
         }
@@ -128,6 +130,7 @@ export class Bank {
         fromAccount.balance -= amount;
         toAccount.balance += amount;
 
+        //independent object for transaction record of transfer
         const transaction: Transaction = {
             transactionId: `TXN${String(this.nextTransactionNumber).padStart(4, "0")}`,
             accountNumber: fromAccountNumber,
@@ -139,6 +142,19 @@ export class Bank {
 
         this.transactions.push(transaction);
         this.nextTransactionNumber++;
+    }
+
+    getBalance(accountNumber: number): number {
+
+        const account = this.accounts.find(
+            acc => acc.accountNumber == accountNumber);
+
+        //validation
+        if (!account) {
+            throw new Error("Account not found");
+        }
+
+        return account.balance;
     }
 
 }

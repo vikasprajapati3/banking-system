@@ -157,4 +157,19 @@ export class Bank {
         return account.balance;
     }
 
+    getTransactionHistory(accountNumber: number): Transaction[] {
+        const account = this.accounts.find(
+            acc => acc.accountNumber == accountNumber
+        );
+
+        if (!account) {
+            throw new Error("Account not found");
+        }
+        const history = this.transactions.filter(
+            transaction => transaction.accountNumber === accountNumber || transaction.toAccountNumber === accountNumber
+        );
+
+        return history;
+    }
+
 }

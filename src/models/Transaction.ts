@@ -7,6 +7,7 @@ export enum TransactionType {
 export interface Transaction {
     transactionId: String,
     accountNumber: number,
+    toAccountNumber?: number;
     type: TransactionType,
     amount: number,
     date: Date

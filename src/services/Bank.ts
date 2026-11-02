@@ -7,7 +7,7 @@ export class Bank {
     private accounts: Account[] = [];
     private transactions: Transaction[] = []
 
-    private nextAccountNumber: number = 1001;
+    private nextAccountNumber: number = 10000001;
     private nextTransactionNumber: number = 1;
 
     constructor() {
@@ -63,5 +63,28 @@ export class Bank {
 
         return account;
     }
+
+    withdraw(accountNumber: number, amount: number): Account {
+        const account = this.accounts.find(acc => acc.accountNumber == accountNumber);
+
+        if (!account) {
+            throw new Error("Account not found");
+        }
+
+        if (amount <= 0) {
+            throw new Error("Deposit amount must be greater than zero");
+        }
+
+        if (account.balance < amount) {
+            throw new Error("Insufficient Balance");
+        }
+
+        account.balance -= amount;
+
+        this.recordTransaction(accountNumber, TransactionType.WITHDRAWAL, amount);
+
+        return account;
+    }
+
 
 }

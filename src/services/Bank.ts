@@ -28,7 +28,7 @@ export class Bank {
             ...this.transactions.map(transaction => Number(transaction.transactionId.replace("TXN", "")) + 1)
         );
 
-        console.log("Banking system initialized.");
+        console.log("\nBanking system initialized.");
         console.log("Accounts Loaded:", this.accounts.length);
         console.log("Transaction loaded:", this.transactions.length);
     }
@@ -190,6 +190,7 @@ export class Bank {
         return account.balance;
     }
 
+    //for history of transaction
     getTransactionHistory(accountNumber: number): Transaction[] {
         const account = this.accounts.find(
             acc => acc.accountNumber == accountNumber

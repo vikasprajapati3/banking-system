@@ -1,1 +1,1 @@
-console.log("Welcome to Banking Management System!");
+import "./menu";

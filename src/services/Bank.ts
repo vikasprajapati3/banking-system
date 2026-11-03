@@ -1,6 +1,7 @@
-import { error } from "node:console";
+import { loadAccounts, loadTransactions, saveAccounts, saveTransactions } from "../utils/storage";
 import { Account } from "../models/Account";
 import { Transaction, TransactionType } from "../models/Transaction";
+
 
 export class Bank {
 
@@ -15,7 +16,29 @@ export class Bank {
     private nextTransactionNumber: number = 1;
 
     constructor() {
+
+        this.accounts = loadAccounts();
+        this.transactions = loadTransactions();
+
+        this.nextAccountNumber = Math.max(10000001,
+            ...this.accounts.map(account => account.accountNumber + 1)
+        );
+
+        this.nextTransactionNumber = Math.max(1,
+            ...this.transactions.map(transaction => Number(transaction.transactionId.replace("TXN", "")) + 1)
+        );
+
         console.log("Banking system initialized.");
+        console.log("Accounts Loaded:", this.accounts.length);
+        console.log("Transaction loaded:", this.transactions.length);
+    }
+
+    //save accounts and transaction
+    private saveData(): void {
+
+        saveAccounts(this.accounts);
+
+        saveTransactions(this.transactions);
     }
 
     //Method for creating new account
@@ -34,6 +57,8 @@ export class Bank {
         this.accounts.push(account);   // add in accounts array
         this.nextAccountNumber++;      //increment for new accounts
 
+        this.saveData();
+
         return account;
     }
 
@@ -50,6 +75,8 @@ export class Bank {
 
         this.transactions.push(transaction);
         this.nextTransactionNumber++;
+
+        this.saveData();
     }
 
     //Method for depositing money
@@ -70,6 +97,8 @@ export class Bank {
 
         //record transaction in Transaction array
         this.recordTransaction(accountNumber, TransactionType.DEPOSIT, amount);
+
+        this.saveData();
 
         return account;
     }
@@ -95,6 +124,8 @@ export class Bank {
 
         //add record in transaction
         this.recordTransaction(accountNumber, TransactionType.WITHDRAWAL, amount);
+
+        this.saveData();
 
         return account;
     }
@@ -142,6 +173,8 @@ export class Bank {
 
         this.transactions.push(transaction);
         this.nextTransactionNumber++;
+
+        this.saveData();
     }
 
     getBalance(accountNumber: number): number {

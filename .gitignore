@@ -5,6 +5,12 @@ node_modules/
 dist/
 build/
 
+# Application data
+data/
+
+# Test-generated data
+tests/fixtures/test-data/
+
 # TypeScript
 *.tsbuildinfo
 

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "test": "vitest run"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +13,12 @@
   "type": "commonjs",
   "devDependencies": {
     "@types/node": "^26.6.6",
-    "typescript": "^7.0.2"
+    "@types/pg": "^8.23.1",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.12"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.9",
+    "pg": "^8.23.1"
   }
 }
